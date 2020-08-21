@@ -1,33 +1,28 @@
-<!-- Adapted from https://stackoverflow.com/questions/27917471/pass-parameter-with-python-flask-in-external-javascript#27926189 -->
+<!doctype html>
+
 
 <html>
     <head>
-        <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script> -->
-        <script type="text/javascript" src="{{ url_for('static', filename='pdfUpload.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/pdfUpload.js') }}"></script>
         <link href="{{ url_for('static', filename='css/pdfUpload.css') }}" rel="stylesheet">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     </head>
     <body>
         <h1 style="text-align:center">Platobne karticky s QR kodom</h1>
-        <p style="text-align:center">Tento skript berie plnu vyplacenu fakturu v pdf formate</p>
-        <p style="text-align:center">a vytvara z nej karticku do penazenky pre zakaznika.</p>
+        <p style="text-align:center">Tento skript berie plnu vytlacenu fakturu/y v pdf formate a vytvara z nej karticku do penazenky pre zakaznika.</p>
         <br>
-        <form class="box" method="post" action="" enctype="multipart/form-data">
-            <div class="box__input">
-              <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
-              <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
-              <button class="box__button" type="submit">Upload</button>
-            </div>
-            <div class="box__uploading">Uploading…</div>
-            <div class="box__success">Done!</div>
-            <div class="box__error">Error! <span></span>.</div>
+        <title>Upload new File</title>
+        <h1>Faktury na spracovanie...</h1>
+        <form action="" method=post enctype=multipart/form-data>
+        <p><input type=file name="files[]"" multiple>
+            <input style="size: 10;" type=submit value=Spracuj...>
         </form>
-        
-        <!-- <input type="file" size="60" name="fileSub">
-        <input id="submitFile" type="button" value="Spracuj..."> -->
-            
+        <p style="font-size:large">Po spracovani sa QR kart-a/y automaticky stiahne v pdf formate</p>
+        <br>
+        <br>
     </body>
     <footer>
-        <p>Contact information: <a href="mailto:repickym@gecom.sk">repickym@gecom.sk</a>.</p>
+        <p>Kontakt: <a href="mailto:repickym@gecom.sk">repickym@gecom.sk</a>.</p>
     </footer>
     </html>

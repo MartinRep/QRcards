@@ -14,7 +14,7 @@ class BillExtract:
     def __init__(self, prefix='faktury/*.pdf'):
         self.prefix = prefix
 
-    def getQRcode(self, name):
+    def _getQRcode(self, name):
         for i in range(len(self.doc)):
             for img in self.doc.getPageImageList(i):
                 xref = img[0]
@@ -28,7 +28,7 @@ class BillExtract:
                 pix = None
         return f"{name}.png"
         
-    def getData(self, key):
+    def _getData(self, key):
         for page in self.doc:
             all_texts = page.getText().encode('utf-8').decode('utf-8')
             key_locator = all_texts.find(key) + len(key)
@@ -36,7 +36,7 @@ class BillExtract:
             data = all_texts[key_locator:value_end]
             return data.strip()
 
-    def getDataLines(self, key, lines=1):
+    def _getDataLines(self, key, lines=1):
         for page in self.doc:
             text_lines = page.getText().strip().encode('utf-8').decode('utf-8').split("\n")
             for num, line in enumerate(text_lines):
@@ -49,19 +49,19 @@ class BillExtract:
         for pdfFile in glob.glob(self.prefix):
             self.doc = fitz.open(pdfFile)
             # QR code
-            qr = self.getQRcode(pdfFile)
+            qr = self._getQRcode(pdfFile)
             # K úhrade
-            amount = self.getData("K úhrade\n").split(" ")
+            amount = self._getData("K úhrade\n").split(" ")
             amount = amount[0]
             # address
-            addr = self.getDataLines("Slovensko", 3)
+            addr = self._getDataLines("Slovensko", 3)
             # IBAN & Ucet
-            acc = self.getDataLines("Účet:", 2)
+            acc = self._getDataLines("Účet:", 2)
             iban = acc[0]
             ucet = acc[1]
             # BIC
-            bic = self.getData("BIC: ")
+            bic = self._getData("BIC: ")
             # Variabilny symbol
-            vs = self.getData("VS: ")
+            vs = self._getData("VS: ")
             clients.append(Client(qr, addr, amount, iban, ucet, bic, vs))
         return clients

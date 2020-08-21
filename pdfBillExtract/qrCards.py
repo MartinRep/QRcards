@@ -11,12 +11,12 @@ import reportlab
 import pdfBillExtract
 from pdfBillExtract.pbe import BillExtract, Client
 
-def processClients(clients):
+def processClients(clients, out_file = 'output.pdf'):
     reportlab.rl_config.warnOnMissingFontGlyphs = 0
     pdfmetrics.registerFont(TTFont('AbhayaLibre-Regular', 'fonts/AbhayaLibre-Regular.ttf')) # imports text font that can handle all the Slovak letters
     pdfmetrics.registerFont(TTFont('AbhayaLibre-Bold', 'fonts/AbhayaLibre-Bold.ttf'))
     line_margin = 0.4 # distance between the text lines on a card
-    c = canvas.Canvas("Output.pdf", pagesize=A4)
+    c = canvas.Canvas(out_file, pagesize=A4)
     while(len(clients) > 0):
         c.setFont("AbhayaLibre-Bold", 8)
         count = 0
@@ -69,8 +69,8 @@ def processClients(clients):
                         c.drawString((x+.7) * cm, (y+3.5-line) * cm, 'Bez poplatku.')
                     bk_count += 1
                 except Exception as e:
-                    print(e)
-                    
+                    print(e)                    
         c.showPage()
         # index += 1
     c.save()
+    return out_file
