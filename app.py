@@ -34,6 +34,8 @@ def processPDFs():
             file_path = DOWNLOAD_FOLDER + qrCards.processClients(pdfs.readPDFs(), adresses=addAddress)
             #send file name as parameter to downlad
             return send_file(file_path, as_attachment=True, attachment_filename='QRcards.pdf')
+        except:
+            pass
     return render_template('pdfUpload.html')
 
 if __name__ == '__main__':
