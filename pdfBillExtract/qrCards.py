@@ -11,7 +11,9 @@ import reportlab
 import pdfBillExtract
 from pdfBillExtract.pbe import BillExtract, Client
 
-def processClients(clients, out_file = 'output.pdf'):
+def processClients(clients, out_file = 'output.pdf', adresses=False):
+    if(adresses):
+        envelope_clients = clients.copy()
     reportlab.rl_config.warnOnMissingFontGlyphs = 0
     pdfmetrics.registerFont(TTFont('AbhayaLibre-Regular', 'fonts/AbhayaLibre-Regular.ttf')) # imports text font that can handle all the Slovak letters
     pdfmetrics.registerFont(TTFont('AbhayaLibre-Bold', 'fonts/AbhayaLibre-Bold.ttf'))
@@ -71,6 +73,21 @@ def processClients(clients, out_file = 'output.pdf'):
                 except Exception as e:
                     print(e)                    
         c.showPage()
-        # index += 1
+    if(adresses):
+        line_margin = 0.7 # distance between the text lines on a card
+        # c = canvas.Canvas("Output-addresses.pdf", pagesize=A4)
+        while(len(envelope_clients) > 0):
+            line = 0
+            for y in range(1, 31, 12):   # y coordinate of the card as a block on a A4 paper(in cm)  (0, 30, 6) will maked 5 rows instead of 6
+                y += .3
+                try:
+                    client = envelope_clients.pop()  # Pops out the client details if are no Cients left just passes
+                    c.setFont("AbhayaLibre-Bold", 12)
+                    for addr_line in client.address:
+                        c.drawString(10 * cm, (y+3.5-line) * cm, addr_line)
+                        line = line + line_margin
+                except:
+                    pass
+            c.showPage()
     c.save()
     return out_file

@@ -11,7 +11,6 @@ DOWNLOAD_FOLDER = ''
 
 app = Flask(__name__)
 
-
 @app.route("/", methods=['POST', 'GET'])
 def processPDFs():
     if request.method == 'POST':
@@ -29,22 +28,13 @@ def processPDFs():
                 print("saved file successfully")
         pdfs = pbe.BillExtract()
         try:
+            # Checks if the checkbox was checked for envelope formatted address print-out
+            addAddress = True if (request.form.get('address') == 'on') else addAddress = False
             # Reads all the pdf files from directory, process them and returns the filename of the output pdf file.
-            file_path = DOWNLOAD_FOLDER + qrCards.processClients(pdfs.readPDFs())
+            file_path = DOWNLOAD_FOLDER + qrCards.processClients(pdfs.readPDFs(), adresses=addAddress)
             #send file name as parameter to downlad
             return send_file(file_path, as_attachment=True, attachment_filename='QRcards.pdf')
-        except:
-            return render_template('pdfUpload.html')        
     return render_template('pdfUpload.html')
-
-@app.route("/downloadfile/<filename>", methods = ['GET'])
-def download_file(filename):
-    return render_template('download.html',value=filename)
-
-@app.route('/return-files/<filename>')
-def return_files_tut(filename):
-    file_path = UPLOAD_FOLDER + filename
-    return send_file(file_path, as_attachment=True, attachment_filename='')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

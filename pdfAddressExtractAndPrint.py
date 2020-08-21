@@ -8,7 +8,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 import reportlab
 import pdfBillExtract
-from pdfBillExtract.pdfBillExctract import BillExtract
+from pdfBillExtract.pbe import BillExtract
 
 def main():
     reportlab.rl_config.warnOnMissingFontGlyphs = 0

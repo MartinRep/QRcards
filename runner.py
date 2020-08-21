@@ -1,7 +1,7 @@
 from pdfBillExtract.pbe import BillExtract
-from pdfBillExtract import qrCards
+from pdfBillExtract.qrCards import processClients
 
-qrCards.processClients(BillExtract().readPDFs())
+processClients(BillExtract().readPDFs())
 
 
 
